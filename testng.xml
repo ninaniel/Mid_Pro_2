@@ -1,0 +1,25 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="CrossBrowserSuite" parallel="tests" thread-count="3">
+
+    <test name="ChromeTests">
+        <parameter name="browser" value="CHROME"/>
+        <packages>
+            <package name="ge.tbc.testautomation.tests"/>
+        </packages>
+    </test>
+
+    <test name="FirefoxTests">
+        <parameter name="browser" value="FIREFOX"/>
+        <packages>
+            <package name="ge.tbc.testautomation.tests"/>
+        </packages>
+    </test>
+
+    <test name="WebkitTests">
+        <parameter name="browser" value="WEBKIT"/>
+        <packages>
+            <package name="ge.tbc.testautomation.tests"/>
+        </packages>
+    </test>
+
+</suite>

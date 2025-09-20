@@ -14,5 +14,7 @@ public class LocationBaseTest extends BaseTest {
                 .setGeolocation(new Geolocation(Constants.TBILISI_LAT, Constants.TBILISI_LON)) // Example: Tbilisi
                 .setPermissions(List.of("geolocation"))
         );
+
     }
+
 }

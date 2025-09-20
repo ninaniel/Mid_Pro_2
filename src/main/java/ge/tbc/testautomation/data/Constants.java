@@ -1,9 +1,12 @@
 package ge.tbc.testautomation.data;
 
+import java.util.List;
+
 public class Constants {
     public static final String BASE_URL   = "https://tbcbank.ge/ka";
     public static final String LOANS_PATH = "/loans";
     public static final String AUTO_LOANS_PATH = "/loans/auto-loan";
+    public static final String OFFERS_URL = "https://tbcbank.ge/ka/offers/all-offers";
 
     // auto loan
     public static final String AMOUNT_FOR_AUTO_LOAN = "15000";
@@ -21,5 +24,23 @@ public class Constants {
     public static final String LOCATIONS_PAGE_TITLE = "ფილიალები და  ბანკომატები";
     public static final String CITY_TO_FILTER_LOCATION = "ბათუმი";
     public static final String CITY_EN = "Batumi";
-    public static final String STREET_ENDING_PATTERN = "ძე";
+    public static final String USER_LOCATION_CITY = "Tbilisi";
+    public static final String TAB_BUTTON_ALL = "ყველა";
+    public static final String TAB_BUTTON_ATM = "ბანკომატები";
+    public static final String TAB_BUTTON_BRANCHES = "ფილიალები";
+    public static final String TAB_BUTTON_CDM = "თანხის მიმღები";
+    public static final String DESCRIPTION_ATM = "ბანკომატი";
+    public static final String DESCRIPTION_BRANCH = "ფილიალი";
+    public static final String DESCRIPTION_CDM = "თანხის მიმღები";
+    public static final String SUB_TAB = "24/7";
+
+    //offers
+    public static final String OFFERS_PAGE_TITLE = "შეთავაზებები";
+    public static final List<String[]> OFFERS_FILTER_WITH_ZERO_RESULT = List.of(
+            new String[]{"ტანსაცმელი", "მოსწავლის ბარათი"},
+            new String[]{"ყვავილები", "სამოგზაურო ბარათი"}
+    );
+    public static final String EMPTY_STATE_MSG = "შეთავაზებები არ მოიძებნა";
+
+
 }

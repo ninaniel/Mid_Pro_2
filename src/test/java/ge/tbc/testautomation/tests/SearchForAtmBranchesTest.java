@@ -21,27 +21,47 @@ public class SearchForAtmBranchesTest extends LocationBaseTest {
     }
 
     @Test(priority = 1)
-    public void locationTest() {
+    public void navigateToLocationsStep() {
         homeSteps.goToAtmAndBranches();
         locationsSteps
                 .ensurePageNavigatedToLocations(Constants.LOCATIONS_PAGE_TITLE)
-                .verifyMapIsVisible()
-                .openDropdownList();
-        if (locationsSteps.listNotEmpty()) {locationsSteps.selectCity(Constants.CITY_TO_FILTER_LOCATION);}
+                .waitForMap();
+    }
+
+    @Test(priority = 2)
+    public void openDropDownStep() {
         locationsSteps
+                .openDropdownList()
+                .assertListNotEmpty();
+    }
+
+    @Test(priority = 3)
+    public void selectCityStep() {
+        locationsSteps
+                .selectCity(Constants.CITY_TO_FILTER_LOCATION)
+                .assertCityFilterIsApplied(Constants.CITY_TO_FILTER_LOCATION)
                 .verifyBranchesAtmWrapperIsVisible()
-                .verifyResultsAppeared();
+                .verifyResultsAppeared()
+                .verifyMapIsCentered(Constants.CITY_EN);
+    }
+
+    @Test(priority = 4)
+    public void checkForResultsStep() {
         for (int i=0; i<5; i++) {
             locationsSteps
                     .selectResult(i)
+                    .assertBranchIsSelected(i)
+                    .assertWorkingHoursVisible(i)
+                    .assertCurrencyInfoVisible(i)
+                    .assertDescriptionVisible(i)
                     .checkForRelatedPin()
                     .getCoordinates()
                     .verifyPinIsFromFilteredCity(Constants.CITY_EN);
         }
     }
 
-    @Test(priority = 2, dataProvider = "streetsData", dataProviderClass = StreetsDataProvider.class)
-    public void dataTest(String street, int expectedCount){
+    @Test(priority = 5, dataProvider = "streetsData", dataProviderClass = StreetsDataProvider.class)
+    public void filterByStreetStep(String street, int expectedCount){
         String streetBase = parseStreet(street);
         locationsSteps
                 .searchForStreet(streetBase)
@@ -52,6 +72,5 @@ public class SearchForAtmBranchesTest extends LocationBaseTest {
                     .getResultsAddress(i)
                     .verifyResultHasCorrectStreetAddress(streetBase);
         }
-
     }
 }

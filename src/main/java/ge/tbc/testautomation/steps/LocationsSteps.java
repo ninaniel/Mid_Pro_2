@@ -3,18 +3,24 @@ package ge.tbc.testautomation.steps;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
-import com.microsoft.playwright.options.SelectOption;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import ge.tbc.testautomation.pages.LocationsPage;
 import org.testng.Assert;
 
-import static ge.tbc.testautomation.utils.MapUtil.isCoordinateInExpectedCity;
-import static ge.tbc.testautomation.utils.TextParser.parseStreet;
+import java.util.ArrayList;
+import java.util.List;
+
+import static ge.tbc.testautomation.utils.CustomCss.assertIsSelected;
+import static ge.tbc.testautomation.utils.MapUtil.*;
 
 public class LocationsSteps extends BaseSteps {
     String resultStreet;
     LocationsPage locationsPage;
     String coordinates;
+    int totalCount;
+    int atmCount;
+    int branchesCount;
+    int cdmCount;
 
     public LocationsSteps(Page page) {
         super(page);
@@ -26,8 +32,9 @@ public class LocationsSteps extends BaseSteps {
         return this;
     }
 
-    public LocationsSteps verifyMapIsVisible() {
-        locationsPage.mapWrapper.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+    public LocationsSteps waitForMap() {
+        locationsPage.mapWrapper.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+        locationsPage.visiblePins.first().waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.ATTACHED).setTimeout(5000));
         return this;
     }
 
@@ -36,8 +43,9 @@ public class LocationsSteps extends BaseSteps {
         return this;
     }
 
-    public boolean listNotEmpty() {
-        return locationsPage.dropdownOption.count() > 0;
+    public LocationsSteps assertListNotEmpty() {
+        PlaywrightAssertions.assertThat(locationsPage.dropdownOption).not().hasCount(0);
+        return this;
     }
 
     public LocationsSteps selectCity(String city) {
@@ -50,13 +58,53 @@ public class LocationsSteps extends BaseSteps {
         return this;
     }
 
+    public LocationsSteps verifySubTabsVisible() {
+        PlaywrightAssertions.assertThat(locationsPage.checkBoxFilters).isVisible();
+        return this;
+    }
+
     public LocationsSteps verifyResultsAppeared() {
         PlaywrightAssertions.assertThat(locationsPage.branchesListItems).not().hasCount(0);
         return this;
     }
 
+    public LocationsSteps verifyMapIsCentered(String city) {
+        List<String> coordinates = new ArrayList<>();
+        for (int i = 0; i < locationsPage.visiblePins.count(); i++) {
+            String position = locationsPage.visiblePins.nth(i).getAttribute("position");
+            coordinates.add(position);
+        }
+        String center = calculateCenter(coordinates);
+        Assert.assertEquals(getCity(center), city);
+        return this;
+    }
+
+    public LocationsSteps assertCityFilterIsApplied(String city) {
+        PlaywrightAssertions.assertThat(locationsPage.selectedCity).hasText(city);
+        return this;
+    }
+
     public LocationsSteps selectResult(int i) {
         locationsPage.branchesListItems.nth(i).click();
+        return this;
+    }
+
+    public LocationsSteps assertBranchIsSelected(int i) {
+        Locator resultsItem = locationsPage.branchesListItems.nth(i);
+        assertIsSelected(resultsItem);
+        return this;
+    }
+
+    public LocationsSteps assertWorkingHoursVisible(int i) {
+        PlaywrightAssertions.assertThat(locationsPage.workingHours.nth(i)).isVisible();
+        return this;
+    }
+    public LocationsSteps assertCurrencyInfoVisible(int i) {
+        PlaywrightAssertions.assertThat(locationsPage.currencyInfo.nth(i)).isVisible();
+        return this;
+    }
+    public LocationsSteps assertDescriptionVisible(int i) {
+        PlaywrightAssertions.assertThat(locationsPage.itemLabel.nth(i)).isVisible();
         return this;
     }
 
@@ -67,7 +115,6 @@ public class LocationsSteps extends BaseSteps {
 
     public LocationsSteps getCoordinates() {
         this.coordinates = locationsPage.selectedPin.getAttribute("position");
-        System.out.println(coordinates);
         return this;
     }
 
@@ -87,11 +134,6 @@ public class LocationsSteps extends BaseSteps {
         return this;
     }
 
-    public LocationsSteps verifyVisiblePinsCount(int count) {
-        PlaywrightAssertions.assertThat(locationsPage.visiblePins).hasCount(count);
-        return this;
-    }
-
     public LocationsSteps getResultsAddress(int index) {
         locationsPage.getDescription(index);
         this.resultStreet = locationsPage.listItemAddress.innerText();
@@ -103,20 +145,96 @@ public class LocationsSteps extends BaseSteps {
         return this;
     }
 
-    public LocationsSteps verifyBranchHasRelatedPin(int index){
-        locationsPage.branchesListItems.nth(index).click();
-        PlaywrightAssertions.assertThat(locationsPage.branchesListItems.nth(index)).hasClass("tbcx-pw-atm-branches-section__list-item active");
-        PlaywrightAssertions.assertThat(locationsPage.relatedPin).isVisible();
+    //tabs and state
+    public LocationsSteps verifyTabMenuIsVisible() {
+        PlaywrightAssertions.assertThat(locationsPage.tabMenu).isVisible();
         return this;
-//        result.click();
-//        result.$(locationsPage.selectedBranch).shouldHave(cssClass("active"));
-//        locationsPage.relatedPin.shouldBe(visible);
     }
 
+    public LocationsSteps verifyTabButtonsAreInteractive() {
+        for (int i = 0; i <locationsPage.tabButtons.count() ; i++) {
+            Assert.assertTrue(locationsPage.tabButtons.nth(i).isEnabled());
+        }
+        return this;
+    }
 
+    public LocationsSteps verifyTabIsActive(String tabName) {
+        locationsPage.getButtonByName(tabName);
+        assertIsSelected(locationsPage.tabButton);
+        return this;
+    }
 
+    public LocationsSteps getCountOfAllAtmBranches() {
+        this.totalCount = locationsPage.branchesListItems.count();
+        return this;
+    }
 
+    public LocationsSteps switchToTab(String tabName) {
+        locationsPage.getButtonByName(tabName);
+        locationsPage.tabButton.click();
+        return this;
+    }
 
+    public LocationsSteps getATMsCount() {
+        this.atmCount = locationsPage.branchesListItems.count();
+        return this;
+    }
 
+    public LocationsSteps verifyAllResultsAreAtm(String text) {
+        for (int i = 0; i < atmCount; i++) {
+            PlaywrightAssertions.assertThat(locationsPage.itemLabel.nth(i)).containsText(text);
+        }
+        return this;
+    }
 
+    public LocationsSteps getBranchesCount() {
+        this.branchesCount = locationsPage.branchesListItems.count();
+        return this;
+    }
+
+    public LocationsSteps verifyAllResultsAreBranch(String text) {
+        for (int i = 0; i < branchesCount; i++) {
+            PlaywrightAssertions.assertThat(locationsPage.itemLabel.nth(i)).containsText(text);
+        }
+        return this;
+    }
+
+    public LocationsSteps getCDMsCount() {
+        this.cdmCount = locationsPage.branchesListItems.count();
+        return this;
+    }
+
+    public LocationsSteps verifyAllResultsAreCdm(String text) {
+        for (int i = 0; i < cdmCount; i++) {
+            PlaywrightAssertions.assertThat(locationsPage.itemLabel.nth(i)).containsText(text);
+        }
+        return this;
+    }
+
+    public LocationsSteps verifyTotalCount() {
+        Assert.assertEquals(totalCount, cdmCount + atmCount + branchesCount);
+        return this;
+    }
+
+    public LocationsSteps selectSubTab(String name) {
+        locationsPage.subTab.getByText(name).click();
+        return this;
+    }
+
+    public LocationsSteps verifyResultsFilteredCorrectly(String workingHours) {
+        for (int i = 0; i < locationsPage.workingHours.count(); i++) {
+            PlaywrightAssertions.assertThat(locationsPage.workingHours.nth(i)).containsText(workingHours);
+        }
+        return this;
+    }
+
+     public LocationsSteps unSelect(String name) {
+         locationsPage.subTab.getByText(name).click();
+         return this;
+     }
+
+     public LocationsSteps verifyResultsAreResetBack() {
+         Assert.assertEquals(locationsPage.branchesListItems.count(), totalCount);
+        return this;
+     }
 }
