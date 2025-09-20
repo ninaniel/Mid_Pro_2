@@ -3,4 +3,5 @@ target
 *.iml
 .mvn
 build
+screenshots
 #allure-results

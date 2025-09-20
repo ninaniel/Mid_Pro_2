@@ -42,5 +42,13 @@ public class Constants {
     );
     public static final String EMPTY_STATE_MSG = "შეთავაზებები არ მოიძებნა";
 
+    //currencies
+    public static final String CURRENCY_PAGE_TITLE = "კომერციული ვალუტის კურსები";
+    public static final String DEFAULT_CURRENCY = "GEL";
+    public static final int AMOUNT_TO_EXCHANGE = 2800;
+    public static final String TO_BUY = "ყიდვა";
+    public static final String TO_SELL = "გაყიდვა";
+
+
 
 }

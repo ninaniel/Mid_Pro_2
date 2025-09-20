@@ -12,12 +12,12 @@ public class BaseTest {
     Browser browser;
     BrowserContext browserContext;
     protected Page page;
-    BaseSteps baseSteps;
+    protected BaseSteps baseSteps;
 
-//    @BeforeSuite(alwaysRun = true)
-//    public void beforeSuite() {
-//        playwright = Playwright.create();
-//    }
+    @BeforeSuite(alwaysRun = true)
+    public void beforeSuite() {
+        playwright = Playwright.create();
+    }
 
     @Parameters({"browser"})
     @BeforeClass(alwaysRun = true)
@@ -56,10 +56,10 @@ public class BaseTest {
         if (playwright != null) playwright.close();
     }
 
-//    @AfterSuite(alwaysRun = true)
-//    public void afterSuite() {
-//        if (playwright != null) playwright.close();
-//    }
+    @AfterSuite(alwaysRun = true)
+    public void afterSuite() {
+        if (playwright != null) playwright.close();
+    }
 
 
     protected BrowserContext createContext() {

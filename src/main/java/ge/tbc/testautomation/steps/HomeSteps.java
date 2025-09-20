@@ -16,4 +16,8 @@ public class HomeSteps extends BaseSteps {
         homePage.locationsLink.click();
     }
 
+    public void goToCurrencyExchange() {
+        homePage.currencyExchange.click();
+    }
+
 }
