@@ -14,10 +14,6 @@ public class BaseTest {
     protected Page page;
     protected BaseSteps baseSteps;
 
-    @BeforeSuite(alwaysRun = true)
-    public void beforeSuite() {
-        playwright = Playwright.create();
-    }
 
     @Parameters({"browser"})
     @BeforeClass(alwaysRun = true)
@@ -55,12 +51,6 @@ public class BaseTest {
         if (browser != null) browser.close();
         if (playwright != null) playwright.close();
     }
-
-    @AfterSuite(alwaysRun = true)
-    public void afterSuite() {
-        if (playwright != null) playwright.close();
-    }
-
 
     protected BrowserContext createContext() {
         return browser.newContext();

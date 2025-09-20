@@ -24,6 +24,7 @@ public class Constants {
     public static final String LOCATIONS_PAGE_TITLE = "ფილიალები და  ბანკომატები";
     public static final String CITY_TO_FILTER_LOCATION = "ბათუმი";
     public static final String CITY_EN = "Batumi";
+    public static final String REGION_EN = "Autonomous Republic of Adjara";
     public static final String USER_LOCATION_CITY = "Tbilisi";
     public static final String TAB_BUTTON_ALL = "ყველა";
     public static final String TAB_BUTTON_ATM = "ბანკომატები";

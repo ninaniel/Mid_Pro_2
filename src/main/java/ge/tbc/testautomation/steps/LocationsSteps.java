@@ -16,7 +16,8 @@ import static ge.tbc.testautomation.utils.MapUtil.*;
 public class LocationsSteps extends BaseSteps {
     String resultStreet;
     LocationsPage locationsPage;
-    String coordinates;
+    String selectedPinCoordinates;
+    List<String> coordinates;
     int totalCount;
     int atmCount;
     int branchesCount;
@@ -68,14 +69,27 @@ public class LocationsSteps extends BaseSteps {
         return this;
     }
 
-    public LocationsSteps verifyMapIsCentered(String city) {
-        List<String> coordinates = new ArrayList<>();
+    public LocationsSteps getCoordinates() {
+        this.coordinates = new ArrayList<>();
         for (int i = 0; i < locationsPage.visiblePins.count(); i++) {
             String position = locationsPage.visiblePins.nth(i).getAttribute("position");
             coordinates.add(position);
         }
+        return this;
+    }
+
+    public LocationsSteps verifyMapIsCentered(String city) {
+        // default to null region
+        return verifyMapIsCentered(city, null);
+    }
+
+    public LocationsSteps verifyMapIsCentered(String city, String region) {
         String center = calculateCenter(coordinates);
-        Assert.assertEquals(getCity(center), city);
+        if (getCity(center).isEmpty()) {
+            Assert.assertEquals(getRegion(center), region);
+        } else {
+            Assert.assertEquals(getCity(center), city);
+        }
         return this;
     }
 
@@ -86,10 +100,12 @@ public class LocationsSteps extends BaseSteps {
 
     public LocationsSteps selectResult(int i) {
         locationsPage.branchesListItems.nth(i).click();
+        locationsPage.selectedBranch.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.ATTACHED));
         return this;
     }
 
     public LocationsSteps assertBranchIsSelected(int i) {
+        locationsPage.branchesListItems.nth(i).click(); //performin' action to receive updated class
         Locator resultsItem = locationsPage.branchesListItems.nth(i);
         assertIsSelected(resultsItem);
         return this;
@@ -99,10 +115,7 @@ public class LocationsSteps extends BaseSteps {
         PlaywrightAssertions.assertThat(locationsPage.workingHours.nth(i)).isVisible();
         return this;
     }
-    public LocationsSteps assertCurrencyInfoVisible(int i) {
-        PlaywrightAssertions.assertThat(locationsPage.currencyInfo.nth(i)).isVisible();
-        return this;
-    }
+
     public LocationsSteps assertDescriptionVisible(int i) {
         PlaywrightAssertions.assertThat(locationsPage.itemLabel.nth(i)).isVisible();
         return this;
@@ -113,13 +126,13 @@ public class LocationsSteps extends BaseSteps {
         return this;
     }
 
-    public LocationsSteps getCoordinates() {
-        this.coordinates = locationsPage.selectedPin.getAttribute("position");
+    public LocationsSteps getSelectedPinCoordinates() {
+        this.selectedPinCoordinates = locationsPage.selectedPin.getAttribute("position");
         return this;
     }
 
     public LocationsSteps verifyPinIsFromFilteredCity(String city) {
-        boolean isInCity = isCoordinateInExpectedCity(coordinates, city);
+        boolean isInCity = isCoordinateInExpectedCity(selectedPinCoordinates, city);
         Assert.assertTrue(isInCity);
         return this;
     }

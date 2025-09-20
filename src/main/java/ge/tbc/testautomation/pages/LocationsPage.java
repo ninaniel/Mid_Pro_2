@@ -11,6 +11,7 @@ public class LocationsPage {
     public Locator selectedCity;
     public Locator branchesListWrapper;
     public Locator branchesListItems;
+    public Locator selectedBranch;
     public Locator listItemAddress;
     public Locator relatedPin;
     public Locator selectedPin;
@@ -21,7 +22,6 @@ public class LocationsPage {
     public Locator tabButton;
     public Locator itemLabel;
     public Locator workingHours;
-    public Locator currencyInfo;
     public Locator checkBoxFilters;
     public Locator subTab;
 
@@ -32,7 +32,9 @@ public class LocationsPage {
         this.dropdownOption = page.locator(".tbcx-dropdown-popover-item__title");
         this.selectedCity = page.locator(".tbcx-selected-container .tbcx-dropdown-selector__selection-text__slot__container");
         this.branchesListWrapper = page.locator(".tbcx-pw-atm-branches-section__map-wrapper .tbcx-pw-atm-branches-section__list-wrapper");
-        this.branchesListItems = page.locator(".tbcx-pw-atm-branches-section__list-item");
+        this.branchesListItems = page.locator("app-atm-branches-section-list-item .tbcx-pw-atm-branches-section__list-item");
+        this.selectedBranch = page.locator(".tbcx-pw-atm-branches-section__list-item.active");
+
         this.relatedPin = page.locator("gmp-advanced-marker .active");
         this.selectedPin = relatedPin.locator("..");
         this.visiblePins = page.locator("gmp-advanced-marker");
@@ -43,7 +45,6 @@ public class LocationsPage {
         this.checkBoxFilters = page.locator("app-atm-branches-checkbox-filters");
         this.subTab = page.locator(".tbcx-pw-chip .tbcx-pw-chip__checkmark");
         this.workingHours = page.locator(".tbcx-pw-atm-branches-section__list-item .tbcx-pw-atm-branches-section__list-item-description");
-        this.currencyInfo = page.locator("tbcx-pw-atm-branches-section__list-item .tbcx-pw-atm-branches-section__list-item-currencies");
 
     }
 

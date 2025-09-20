@@ -52,6 +52,12 @@ public class MapUtil {
         return address.optString("city", "");
     }
 
+    public static String getRegion(String coordinates) {
+        parseCoordinates(coordinates);
+        JSONObject address = getAddressFromCoordinates(lat, lon);
+        return address.optString("state", "");
+    }
+
     public static boolean isCoordinateInExpectedCity(String coordinates, String expectedCity) {
         parseCoordinates(coordinates);
         JSONObject address = getAddressFromCoordinates(lat, lon);

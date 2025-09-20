@@ -1,25 +1,34 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="CrossBrowserSuite" parallel="tests" thread-count="3">
+<suite name="CrossBrowserSuite" parallel="tests">
 
     <test name="ChromeTests">
         <parameter name="browser" value="CHROME"/>
-        <packages>
-            <package name="ge.tbc.testautomation.tests"/>
-        </packages>
+        <classes>
+            <class name="ge.tbc.testautomation.tests.RequestAutoLoanTest"/>
+            <class name="ge.tbc.testautomation.tests.OffersFilterTest"/>
+            <class name="ge.tbc.testautomation.tests.MapTabsAndDefaultStateTest"/>
+            <class name="ge.tbc.testautomation.tests.SearchForAtmBranchesTest"/>
+        </classes>
     </test>
 
     <test name="FirefoxTests">
         <parameter name="browser" value="FIREFOX"/>
-        <packages>
-            <package name="ge.tbc.testautomation.tests"/>
-        </packages>
+        <classes>
+            <class name="ge.tbc.testautomation.tests.RequestAutoLoanTest"/>
+            <class name="ge.tbc.testautomation.tests.OffersFilterTest"/>
+            <class name="ge.tbc.testautomation.tests.MapTabsAndDefaultStateTest"/>
+            <class name="ge.tbc.testautomation.tests.SearchForAtmBranchesTest"/>
+        </classes>
     </test>
 
     <test name="WebkitTests">
         <parameter name="browser" value="WEBKIT"/>
-        <packages>
-            <package name="ge.tbc.testautomation.tests"/>
-        </packages>
+        <classes>
+            <class name="ge.tbc.testautomation.tests.RequestAutoLoanTest"/>
+            <class name="ge.tbc.testautomation.tests.OffersFilterTest"/>
+            <class name="ge.tbc.testautomation.tests.MapTabsAndDefaultStateTest"/>
+            <class name="ge.tbc.testautomation.tests.SearchForAtmBranchesTest"/>
+        </classes>
     </test>
 
 </suite>

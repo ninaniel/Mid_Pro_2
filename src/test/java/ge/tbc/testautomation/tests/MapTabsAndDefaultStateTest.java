@@ -25,6 +25,7 @@ public class MapTabsAndDefaultStateTest extends LocationBaseTest {
                 .ensurePageNavigatedToLocations(Constants.LOCATIONS_PAGE_TITLE)
                 .verifyBranchesAtmWrapperIsVisible()
                 .waitForMap()
+                .getCoordinates()
                 .verifyMapIsCentered(Constants.USER_LOCATION_CITY)
                 .verifyTabMenuIsVisible()
                 .verifyTabIsActive(Constants.TAB_BUTTON_ALL)

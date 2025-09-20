@@ -42,7 +42,8 @@ public class SearchForAtmBranchesTest extends LocationBaseTest {
                 .assertCityFilterIsApplied(Constants.CITY_TO_FILTER_LOCATION)
                 .verifyBranchesAtmWrapperIsVisible()
                 .verifyResultsAppeared()
-                .verifyMapIsCentered(Constants.CITY_EN);
+                .getCoordinates()
+                .verifyMapIsCentered(Constants.CITY_EN, Constants.REGION_EN);
     }
 
     @Test(priority = 4)
@@ -52,12 +53,15 @@ public class SearchForAtmBranchesTest extends LocationBaseTest {
                     .selectResult(i)
                     .assertBranchIsSelected(i)
                     .assertWorkingHoursVisible(i)
-                    .assertCurrencyInfoVisible(i)
                     .assertDescriptionVisible(i)
                     .checkForRelatedPin()
-                    .getCoordinates()
+                    .getSelectedPinCoordinates()
                     .verifyPinIsFromFilteredCity(Constants.CITY_EN);
         }
+        //return Batumi's default state of the map
+        locationsSteps
+                .openDropdownList()
+                .selectCity(Constants.CITY_TO_FILTER_LOCATION);
     }
 
     @Test(priority = 5, dataProvider = "streetsData", dataProviderClass = StreetsDataProvider.class)

@@ -3,6 +3,7 @@ package ge.tbc.testautomation.steps;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
+import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import ge.tbc.testautomation.pages.OffersPage;
 import org.testng.Assert;
@@ -66,11 +67,13 @@ public class OffersSteps extends BaseSteps {
     }
 
     public OffersSteps verifyOffersPageLoaded(String title) {
+        page.waitForLoadState(LoadState.NETWORKIDLE);
         PlaywrightAssertions.assertThat(offersPage.pageTitle).hasText(title);
         return this;
     }
 
     public OffersSteps verifyFiltersRemainedChecked(String[] filterOptions) {
+        page.waitForLoadState(LoadState.NETWORKIDLE);
         for (var option:filterOptions) {
             offersPage.getFilter(option);
             Assert.assertTrue(offersPage.filter.isChecked());

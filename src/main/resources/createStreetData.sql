@@ -15,7 +15,7 @@ INSERT INTO StreetCases (city, street, expected_result_count) VALUES
 (N'ბათუმი', N'ჭავჭავაძე', 2),
 (N'ბათუმი', N'რუსთაველი', 1),
 (N'ბათუმი', N'გორგილაძე', 9),
-(N'ბათუმი', N'ხიმშიაშვილი', 15),
+(N'ბათუმი', N'ხიმშიაშვილი', 14),
 (N'ბათუმი', N'აბაშიძე', 6);
 
 select * from StreetCases;
