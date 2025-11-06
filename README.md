@@ -4,7 +4,7 @@
 A comprehensive test automation framework for TBC Bank's loan products and services. The framework provides end-to-end testing capabilities including UI automation, API testing, and performance measurement for loan calculators, mortgage services, and refinancing features.
 
 ## Quick demo (recorded)
-![Auto Loan Test Demo](videos/gif_temp.gif)
+![Image](https://github.com/user-attachments/assets/0fcc8cdd-f972-459a-95e4-5b3bbfb7bf89)
 
 ```powershell
 mvn -Dtest=RefinanceCalculatorTest test
