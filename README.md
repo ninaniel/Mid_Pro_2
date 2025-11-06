@@ -6,19 +6,6 @@ A comprehensive test automation framework for TBC Bank's loan products and servi
 ## Quick demo (recorded)
 ![Image](https://github.com/user-attachments/assets/0fcc8cdd-f972-459a-95e4-5b3bbfb7bf89)
 
-```powershell
-mvn -Dtest=RefinanceCalculatorTest test
-```
-
-Or run full suite with:
-
-```powershell
-mvn test -DsuiteXmlFile=testng.xml
-```
-
-Notes:
-- If the video does not play in your environment, download it from `video/23e3732c043c25ca5fffc5bbccdf68ea.webm` and open it in a local player.
-- The recorded run was captured in a controlled environment; timings and exact UI pixels may differ locally or in CI.
 
 ## Technology Stack
 
