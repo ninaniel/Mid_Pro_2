@@ -4,24 +4,7 @@
 A comprehensive test automation framework for TBC Bank's loan products and services. The framework provides end-to-end testing capabilities including UI automation, API testing, and performance measurement for loan calculators, mortgage services, and refinancing features.
 
 ## Quick demo (recorded)
-The repository includes a recorded test execution that demonstrates the refinance calculator flow (inputting values, slider synchronization, auto-correction, interest rate update and monthly payment validation).
-
-You can find the demo video here: `video/23e3732c043c25ca5fffc5bbccdf68ea.webm`
-
-Embedded demo (modern browsers / GitHub may not autoplay):
-
-<video src="video/23e3732c043c25ca5fffc5bbccdf68ea.webm" controls width="720">Your browser does not support the video tag. Download the demo: [video/23e3732c043c25ca5fffc5bbccdf68ea.webm](video/23e3732c043c25ca5fffc5bbccdf68ea.webm)</video>
-
-What the recording shows (short):
-- Navigating to refinance calculator
-- Inputting loan amount and period via direct typing
-- Auto-correction when out-of-range values are entered
-- Slider movement reflecting input changes
-- Interest rate update and monthly contribution calculation verification
-
-How to reproduce locally
-1. Make sure dependencies and Playwright browsers are installed (see Setup section).
-2. Run only the refinance test:
+![Auto Loan Test Demo](videos/gif_temp.gif)
 
 ```powershell
 mvn -Dtest=RefinanceCalculatorTest test
